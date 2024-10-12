@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pelota Rebotando</title>
+    <title>Pelota Rebotando al Tocar el Mouse</title>
     <style>
         body {
             display: flex;
@@ -12,6 +12,7 @@
             height: 100vh;
             background-color: #f0f0f0;
             overflow: hidden;
+            position: relative;
         }
         #pelota {
             width: 50px;
@@ -19,8 +20,6 @@
             background-color: red;
             border-radius: 50%;
             position: absolute;
-            top: 0;
-            left: calc(50% - 25px);
         }
     </style>
 </head>
@@ -29,19 +28,37 @@
 
     <script>
         const pelota = document.getElementById('pelota');
-        let position = 0;
-        let direction = 1;
+        let position = { x: 0, y: 0 };
+        let bouncing = false;
 
-        function rebote() {
-            position += direction * 5; // Cambia la velocidad aquí
-            if (position >= window.innerHeight - 50 || position <= 0) {
-                direction *= -3; // Cambia la dirección al rebotar
-            }
-            pelota.style.top = position + 'px';
-            requestAnimationFrame(rebote);
+        // Mover la pelota a una posición aleatoria
+        function moverPelota() {
+            position.x = Math.random() * (window.innerWidth - 50);
+            position.y = Math.random() * (window.innerHeight - 50);
+            pelota.style.left = position.x + 'px';
+            pelota.style.top = position.y + 'px';
         }
 
-        rebote();
+        // Detectar el movimiento del mouse
+        document.addEventListener('mousemove', (event) => {
+            if (bouncing) return;
+
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+
+            const distancia = Math.sqrt(
+                (mouseX - (position.x + 25)) ** 2 + (mouseY - (position.y + 25)) ** 2
+            );
+
+            if (distancia < 25) {
+                bouncing = true;
+                moverPelota();
+                setTimeout(() => bouncing = false, 500); // Tiempo de rebote
+            }
+        });
+
+        // Inicializar la posición de la pelota
+        moverPelota();
     </script>
 </body>
 </html>
