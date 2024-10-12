@@ -33,9 +33,9 @@
         let direction = 1;
 
         function rebote() {
-            position += direction * 2; // Cambia la velocidad aquí
+            position += direction * 5; // Cambia la velocidad aquí
             if (position >= window.innerHeight - 50 || position <= 0) {
-                direction *= -1; // Cambia la dirección al rebotar
+                direction *= -3; // Cambia la dirección al rebotar
             }
             pelota.style.top = position + 'px';
             requestAnimationFrame(rebote);
