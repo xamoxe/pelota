@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelota Rebotando</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        #pelota {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: calc(50% - 25px);
+        }
+    </style>
+</head>
+<body>
+    <div id="pelota"></div>
+
+    <script>
+        const pelota = document.getElementById('pelota');
+        let position = 0;
+        let direction = 1;
+
+        function rebote() {
+            position += direction * 2; // Cambia la velocidad aquí
+            if (position >= window.innerHeight - 50 || position <= 0) {
+                direction *= -1; // Cambia la dirección al rebotar
+            }
+            pelota.style.top = position + 'px';
+            requestAnimationFrame(rebote);
+        }
+
+        rebote();
+    </script>
+</body>
+</html>
